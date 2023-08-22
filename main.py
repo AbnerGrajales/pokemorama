@@ -65,13 +65,14 @@ class Pokememorama:
         base_url = "https://pokemondb.net/pokedex/national"
         response = requests.get(base_url)
         soup = BeautifulSoup(response.content, "html.parser")
-        img_elements = soup.find_all("img", class_="img-fixed", limit=8)
+        img_elements = soup.find_all("img", class_="img-fixed", limit=200)
 
         img_urls = []
         for img_element in img_elements:
             img_urls.append(img_element["src"])
 
-        return img_urls
+        random.shuffle(img_urls)
+        return img_urls[:8]
 
     def draw_board(self):
         for card in self.cards:
@@ -115,7 +116,7 @@ class Pokememorama:
             WIN.fill((0, 0, 0))
             self.draw_board()
             pygame.display.update()
-            pygame.time.wait(1000)
+            # pygame.time.wait(1000)
             if self.matches == len(self.cards) // 2:
                 running = False
 
