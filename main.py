@@ -1,7 +1,4 @@
 import pygame
-import requests
-from io import BytesIO
-from bs4 import BeautifulSoup
 import random
 
 # Inicializar pygame
@@ -40,9 +37,8 @@ class Pokememorama:
         images = []
         pokemon_images = self.fetch_pokemon_images()
         random.shuffle(pokemon_images)
-        for i, img_url in enumerate(pokemon_images):
-            response = requests.get(img_url)
-            picture = pygame.image.load(BytesIO(response.content))
+        for i, imname in enumerate(pokemon_images):
+            picture = pygame.image.load(f"./images/{imname}")
             picture = pygame.transform.scale(picture, (CARD_WIDTH, CARD_HEIGHT))
             images.append(picture)
 
@@ -62,17 +58,7 @@ class Pokememorama:
         return cards
     
     def fetch_pokemon_images(self):
-        base_url = "https://pokemondb.net/pokedex/national"
-        response = requests.get(base_url)
-        soup = BeautifulSoup(response.content, "html.parser")
-        img_elements = soup.find_all("img", class_="img-fixed", limit=200)
-
-        img_urls = []
-        for img_element in img_elements:
-            img_urls.append(img_element["src"])
-
-        random.shuffle(img_urls)
-        return img_urls[:8]
+        return ["chikorita.jpg", "snorlax.jpg", "voltorb.jpg", "gengar.jpg", "poliwhirl.jpg", "vulpix.jpg", "charmeleon.jpg", "ivysaur.jpg"]
 
     def draw_board(self):
         for card in self.cards:
@@ -116,7 +102,6 @@ class Pokememorama:
             WIN.fill((0, 0, 0))
             self.draw_board()
             pygame.display.update()
-            # pygame.time.wait(1000)
             if self.matches == len(self.cards) // 2:
                 running = False
 
