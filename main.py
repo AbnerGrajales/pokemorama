@@ -34,14 +34,7 @@ class Pokememorama:
         self.matches = 0
 
     def load_cards(self):
-        images = []
-        pokemon_images = self.fetch_pokemon_images()
-        random.shuffle(pokemon_images)
-        for i, imname in enumerate(pokemon_images):
-            picture = pygame.image.load(f"./images/{imname}")
-            picture = pygame.transform.scale(picture, (CARD_WIDTH, CARD_HEIGHT))
-            images.append(picture)
-
+        images = self.load_images()
         # Duplicamos las imagenes
         images *=2
 
@@ -57,8 +50,26 @@ class Pokememorama:
                 cards.append(card)
         return cards
     
-    def fetch_pokemon_images(self):
-        return ["chikorita.jpg", "snorlax.jpg", "voltorb.jpg", "gengar.jpg", "poliwhirl.jpg", "vulpix.jpg", "charmeleon.jpg", "ivysaur.jpg"]
+    def load_images(self):
+        images = [
+            "chikorita.jpg", 
+            "snorlax.jpg", 
+            "voltorb.jpg", 
+            "gengar.jpg", 
+            "poliwhirl.jpg", 
+            "vulpix.jpg", 
+            "charmeleon.jpg", 
+            "ivysaur.jpg"
+        ]
+        
+        pictures = []
+        random.shuffle(images)
+        for i, imname in enumerate(images):
+            picture = pygame.image.load(f"./images/{imname}")
+            picture = pygame.transform.scale(picture, (CARD_WIDTH, CARD_HEIGHT))
+            pictures.append(picture)
+            
+        return pictures
 
     def draw_board(self):
         for card in self.cards:
