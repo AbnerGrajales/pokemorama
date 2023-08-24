@@ -77,7 +77,24 @@ class Pokememorama:
                 pygame.draw.rect(WIN, WHITE, card.rect)
 
     def check_match(self):
-        pass
+        # Verificamos si tenemos 2 tarjetas para comprar
+        if len(self.flipped_cards) == 2:
+            # Verficamos si es la misma imagen
+            if self.flipped_cards[0].image == self.flipped_cards[1].image:
+                print("match")
+                # Marcamos como matched las tarjetas de la cuadricula
+                for card in self.flipped_cards:
+                    card.matched = True
+                    
+                # Aumentamos el contador
+                self.matches += 1
+            else:
+                print("no match")
+                # Regresamos las tarjetas volteadas
+                for card in self.flipped_cards:
+                    card.flipped = False
+
+            self.flipped_cards.clear()
 
     def run(self):
         clock = pygame.time.Clock()
@@ -95,6 +112,8 @@ class Pokememorama:
                     for card in self.cards:
                         if card.rect.collidepoint(mouseX, mouseY) and not card.flipped and not card.matched:
                             card.flipped = True
+                            self.flipped_cards.append(card)
+                            self.check_match()
                             
             # Rellenar la pantalla de color
             WIN.fill(BGWIN)
@@ -102,6 +121,11 @@ class Pokememorama:
             self.draw_board()
             
             pygame.display.update()
+            
+            # Finalizamos el juego
+            if self.matches == len(self.cards) // 2:
+                running = False
+                
             clock.tick(30)
             
         pygame.quit()
