@@ -85,15 +85,22 @@ class Pokememorama:
         while running:
             for event in pygame.event.get():
                 # Eventos
+                # Salir
                 if event.type == pygame.QUIT:
                     running = False
-            
+
+                # Click
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouseX, mouseY = pygame.mouse.get_pos()
+                    for card in self.cards:
+                        if card.rect.collidepoint(mouseX, mouseY) and not card.flipped and not card.matched:
+                            card.flipped = True
+                            
             # Rellenar la pantalla de color
             WIN.fill(BGWIN)
-            
             # Dibujamos la cuadricula
             self.draw_board()
-                
+            
             pygame.display.update()
             clock.tick(30)
             
