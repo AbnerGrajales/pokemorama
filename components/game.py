@@ -22,8 +22,24 @@ class Pokememorama:
         pass
     
     def load_images(self):
-        pass
+        pictures = [
+            "chikorita.jpg", 
+            "snorlax.jpg", 
+            "voltorb.jpg", 
+            "gengar.jpg", 
+            "poliwhirl.jpg", 
+            "vulpix.jpg", 
+            "charmeleon.jpg", 
+            "ivysaur.jpg"
+        ]
+        images = []
+        for i, imname in enumerate(pictures):
+            picture = pygame.image.load(f"./images/{imname}")
+            # picture = pygame.transform.scale(picture, (WIDTH, HEIGHT))
+            images.append(picture)
 
+        return images
+    
     def draw_board(self):
         pass
 
@@ -41,12 +57,11 @@ class Pokememorama:
 
             WIN.fill(WHITE)  # Rellenar la pantalla con el color blanco
             
-            # Mostrar "¡Hola, mundo!" en el centro de la pantalla
-            font = pygame.font.Font(None, 36)
-            text = font.render("¡Hola, mundo!", True, (0, 0, 0))
-            text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-            WIN.blit(text, text_rect)
-
+            # Cargar la imagen en la pantalla
+            first_image = self.load_images()[0]
+            image_rect = first_image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+            WIN.blit(first_image, image_rect)
+                
             pygame.display.update()
             clock.tick(30)
             
