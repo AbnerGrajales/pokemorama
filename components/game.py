@@ -70,7 +70,11 @@ class Pokememorama:
         return images
     
     def draw_board(self):
-        pass
+        for card in self.cards:
+            if card.flipped or card.matched:
+                WIN.blit(card.image, card.rect.topleft)
+            else:
+                pygame.draw.rect(WIN, WHITE, card.rect)
 
     def check_match(self):
         pass
@@ -88,8 +92,7 @@ class Pokememorama:
             WIN.fill(BGWIN)
             
             # Dibujamos la cuadricula
-            for card in self.cards:
-                WIN.blit(card.image, card.rect.topleft)
+            self.draw_board()
                 
             pygame.display.update()
             clock.tick(30)
